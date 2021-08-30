@@ -3,16 +3,14 @@ from scr.pages.http_manager import HttpManager
 import allure
 
 
-@allure.feature('Base Tests')
-@allure.story('Ping')
-@allure.severity('blocker')
+@allure.testcase('Check ping')
 # blocker critical normal minor trivial
 def test_check_ping():
     with allure.step("Check ping"):
         result = HttpManager.get('https://restful-booker.herokuapp.com/ping')
         assert 201 == result.status_code
 
-
+@allure.testcase('Check auth')
 def test_check_auth():
     json_auth = {
         "username": "admin",
@@ -24,7 +22,7 @@ def test_check_auth():
     json_right = "token"
     assert json_right in result.json()
 
-
+@allure.testcase('Check get booking id')
 def test_get_booking_id_all():
     result = HttpManager.get("https://restful-booker.herokuapp.com/booking")
     assert 200 == result.status_code
@@ -40,22 +38,22 @@ def test_get_booking_id_all():
                    {'bookingid': 10}]
     assert result.json() == json_right1
 
-
+@allure.testcase('Check get booking id filter by name')
 def test_get_booking_filter_by_name():
     result = HttpManager.get("https://restful-booker.herokuapp.com/booking?firstname=Sally")
     assert 200 == result.status_code
     json_right1 = [{'bookingid': 4}, {'bookingid': 6}]
     assert result.json() == json_right1
 
-
+@allure.testcase('Check get booking check in')
 def test_get_booking_checkin():
     result = HttpManager.get("https://restful-booker.herokuapp.com/booking?checkin=2014-03-13&checkout=2014-05-21")
     assert 200 == result.status_code
     json_right1 = []
     assert result.json() == json_right1
 
-
-def test_get_booking_cread():
+@allure.testcase('Check get booking read')
+def test_get_booking_read():
     result = HttpManager.get("https://restful-booker.herokuapp.com/booking/5")
     assert 200 == result.status_code
     json_right1 = {'bookingdates': {'checkin': '2016-09-24', 'checkout': '2019-09-26'},
@@ -65,7 +63,7 @@ def test_get_booking_cread():
                    'totalprice': 282}
     assert result.json() == json_right1
 
-
+@allure.testcase('Check create booking')
 def test_create_booking():
     json_name = {
         "firstname": "J3im",
@@ -85,7 +83,7 @@ def test_create_booking():
     json_right = "bookingid"
     assert json_right in result.json()
 
-
+@allure.testcase('Check update booking')
 def test_update_booking():
     json_auth = {
         "username": "admin",
@@ -111,6 +109,7 @@ def test_update_booking():
     assert 200 == result.status_code
 
 
+@allure.testcase('Check partial update booking')
 def test_partial_update():
     json_auth = {
         "username": "admin",
@@ -128,7 +127,7 @@ def test_partial_update():
                             cookies={'token': json_right})
     assert 200 == result.status_code
 
-
+@allure.testcase('Check delete')
 def test_delete():
     json_auth = {
         "username": "admin",
