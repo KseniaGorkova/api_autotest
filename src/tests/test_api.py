@@ -1,7 +1,7 @@
 import requests
-from scr.pages.http_manager import HttpManager
+from src.pages.http_manager import HttpManager
 import allure
-from scr.pages.json import Json
+from src.pages.json import Json
 
 @allure.testcase('Check ping')
 def test_check_ping():
